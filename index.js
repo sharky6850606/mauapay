@@ -153,6 +153,7 @@ const actions = ({ publishableKey, secretKey }) => ({
         reference_id_field,
         currency,
         skip_if,
+        payment_service,
       },
     }) => {
       if (skip_if && eval_expression(skip_if, row, user || req?.user))
@@ -198,7 +199,7 @@ const actions = ({ publishableKey, secretKey }) => ({
         amount = amt_row[amt_fk_field.name].toFixed(2);
       } else amount = row[amount_field].toFixed(2);
 
-      const paymentService = "digicel";
+      const paymentService = payment_service || "digicel";
       const checkStr = `${orderID}:${amount}:${cb_url}:${cb_url}:${cb_url}:${cb_url}:${paymentService}`;
 
       const checksum = createHmac("sha256", secretKey)
